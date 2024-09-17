@@ -1,0 +1,13 @@
+rules:
+  - id: java-broken-access-control-non-compliant
+    languages:
+      - java
+    severity: ERROR
+    message: Potential broken access control updateRecord is called without
+      verifying record ownership."
+    patterns:
+      - pattern: updateRecord($RECORD_ID, $NEW_CONTENT);
+      - pattern-not: |-
+          if (userOwnsRecord($USER_ID, $RECORD_ID)) {
+            updateRecord($RECORD_ID, $NEW_CONTENT);
+          }
